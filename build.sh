@@ -6,8 +6,18 @@ set -o errexit
 echo "Current directory: $(pwd)"
 echo "Starting build process..."
 
+# Ensure we're in the right directory
+if [ ! -f "build.sh" ]; then
+    echo "Error: build.sh not found in current directory"
+    exit 1
+fi
+
 # Install Python dependencies
 echo "Installing Python dependencies..."
+if [ ! -f "backend/requirements.txt" ]; then
+    echo "Error: backend/requirements.txt not found"
+    exit 1
+fi
 pip install -r backend/requirements.txt
 
 # Install Node.js dependencies
