@@ -27,8 +27,14 @@ cp -r frontend/build/* backend/static/
 # Go to backend directory
 cd backend
 
+# Create staticfiles directory
+mkdir -p staticfiles
+
 # Collect static files
 python manage.py collectstatic --noinput
+
+# Ensure static files are properly served
+cp -r static/* staticfiles/ 2>/dev/null || true
 
 # Run migrations
 python manage.py migrate

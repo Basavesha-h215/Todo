@@ -1,3 +1,6 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.generic import TemplateView
 from rest_framework import status, generics, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -10,6 +13,12 @@ from .serializers import (
     UserSerializer, UserRegistrationSerializer, PostSerializer, 
     PostCreateSerializer, CommentSerializer
 )
+
+class ReactAppView(TemplateView):
+    template_name = 'index.html'
+    
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
