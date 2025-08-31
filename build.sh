@@ -46,6 +46,12 @@ mkdir -p travel-blog/backend/static
 # Copy build files to Django static directory
 cp -r travel-blog/frontend/build/* travel-blog/backend/static/
 
+# Ensure static files are properly copied
+echo "Copying React build files..."
+ls -la travel-blog/frontend/build/
+echo "Files in backend/static after copy:"
+ls -la travel-blog/backend/static/
+
 # Go to backend directory
 cd travel-blog/backend
 
