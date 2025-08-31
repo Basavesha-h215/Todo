@@ -12,14 +12,19 @@ npm install
 # Build React app
 npm run build
 
-# Copy build files to Django static directory
-cp -r build/* ../backend/static/
-
 # Go back to root
 cd ..
 
-# Collect static files
+# Create static directory if it doesn't exist
+mkdir -p backend/static
+
+# Copy build files to Django static directory
+cp -r frontend/build/* backend/static/
+
+# Go to backend directory
 cd backend
+
+# Collect static files
 python manage.py collectstatic --noinput
 
 # Run migrations
