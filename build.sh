@@ -2,10 +2,16 @@
 # exit on error
 set -o errexit
 
+# Print current directory for debugging
+echo "Current directory: $(pwd)"
+echo "Starting build process..."
+
 # Install Python dependencies
+echo "Installing Python dependencies..."
 pip install -r backend/requirements.txt
 
 # Install Node.js dependencies
+echo "Installing Node.js dependencies..."
 cd frontend
 npm install
 
@@ -14,9 +20,11 @@ export REACT_APP_BACKEND_URL=https://todo-4-xnxh.onrender.com
 export PUBLIC_URL=/
 
 # Build React app
+echo "Building React app..."
 npm run build
 
 # Fix PUBLIC_URL placeholders
+echo "Fixing PUBLIC_URL placeholders..."
 node build-script.js
 
 # Go back to root
