@@ -13,28 +13,346 @@
     <!-- Embedded CSS -->
     <style>
         body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;margin:0}code{font-family:source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace}
+        
+        .container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .form-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 400px;
+            width: 100%;
+            margin: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .toggle-form button {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .error-message {
+            background: rgba(255,0,0,0.2);
+            border: 1px solid rgba(255,0,0,0.3);
+            color: #ffcccc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(0,255,0,0.2);
+            border: 1px solid rgba(0,255,0,0.3);
+            color: #ccffcc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .homepage {
+            text-align: center;
+            display: block;
+        }
+        
+        .auth-forms {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+        <!-- Homepage -->
+        <div class="container homepage" id="homepage">
+            <h1 style="font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🌍 TravelBlog</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; line-height: 1.6;">Share your amazing travel adventures and discover stories from around the world</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <button onclick="showLogin()" class="btn btn-secondary">Login</button>
+                <button onclick="showRegister()" class="btn btn-primary">Register</button>
+            </div>
+            <div style="margin-top: 40px; font-size: 0.9rem; opacity: 0.8;">
+                <p>🚀 Your travel stories await!</p>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="container auth-forms" id="loginForm">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 30px;">Login to TravelBlog</h2>
+                <div class="error-message" id="loginError"></div>
+                <div class="success-message" id="loginSuccess"></div>
+                
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                
+                <button onclick="login()" class="btn btn-primary">Login</button>
+                <button onclick="showHomepage()" class="btn btn-secondary">Back to Home</button>
+                
+                <div class="toggle-form">
+                    <button onclick="showRegister()">Don't have an account? Register here</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="container auth-forms" id="registerForm">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 30px;">Create Account</h2>
+                <div class="error-message" id="registerError"></div>
+                <div class="success-message" id="registerSuccess"></div>
+                
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" placeholder="Choose a username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Choose a password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerPasswordConfirm">Confirm Password</label>
+                    <input type="password" id="registerPasswordConfirm" placeholder="Confirm your password">
+                </div>
+                
+                <button onclick="register()" class="btn btn-primary">Register</button>
+                <button onclick="showHomepage()" class="btn btn-secondary">Back to Home</button>
+                
+                <div class="toggle-form">
+                    <button onclick="showLogin()">Already have an account? Login here</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Embedded JavaScript -->
     <script>
-        // Simple React app fallback
-        document.getElementById('root').innerHTML = `
-            <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h1 style="font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🌍 TravelBlog</h1>
-                <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; line-height: 1.6;">Share your amazing travel adventures and discover stories from around the world</p>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-                    <button onclick="window.location.href='/api/auth/login/'" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">Login</button>
-                    <button onclick="window.location.href='/api/auth/register/'" style="background: white; border: 2px solid white; color: #667eea; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">Register</button>
-                </div>
-                <div style="margin-top: 40px; font-size: 0.9rem; opacity: 0.8;">
-                    <p>🚀 Your travel stories await!</p>
-                </div>
-            </div>
-        `;
+        const API_BASE_URL = 'https://travel-blog-1nvr.onrender.com/api';
+        
+        function showHomepage() {
+            document.getElementById('homepage').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+        
+        function showLogin() {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            hideMessages('login');
+        }
+        
+        function showRegister() {
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            hideMessages('register');
+        }
+        
+        function hideMessages(formType) {
+            document.getElementById(formType + 'Error').style.display = 'none';
+            document.getElementById(formType + 'Success').style.display = 'none';
+        }
+        
+        function showMessage(formType, type, message) {
+            hideMessages(formType);
+            const element = document.getElementById(formType + type.charAt(0).toUpperCase() + type.slice(1));
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+        
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                showMessage('login', 'error', 'Please fill in all fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('login', 'success', 'Login successful! Welcome to TravelBlog');
+                    // Store tokens
+                    localStorage.setItem('access_token', data.access);
+                    localStorage.setItem('refresh_token', data.refresh);
+                    // Redirect to dashboard or show success
+                    setTimeout(() => {
+                        showHomepage();
+                        document.getElementById('loginUsername').value = '';
+                        document.getElementById('loginPassword').value = '';
+                    }, 2000);
+                } else {
+                    showMessage('login', 'error', data.detail || 'Login failed. Please check your credentials.');
+                }
+            } catch (error) {
+                showMessage('login', 'error', 'Network error. Please try again.');
+            }
+        }
+        
+        async function register() {
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+            
+            if (!username || !email || !password || !passwordConfirm) {
+                showMessage('register', 'error', 'Please fill in all fields');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                showMessage('register', 'error', 'Passwords do not match');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/register/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        username, 
+                        email, 
+                        password, 
+                        password_confirm: passwordConfirm 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('register', 'success', 'Registration successful! You can now login.');
+                    // Clear form
+                    document.getElementById('registerUsername').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    document.getElementById('registerPasswordConfirm').value = '';
+                    // Show login form after 2 seconds
+                    setTimeout(() => {
+                        showLogin();
+                    }, 2000);
+                } else {
+                    const errorMessage = data.username ? data.username[0] : 
+                                       data.email ? data.email[0] : 
+                                       data.password ? data.password[0] : 
+                                       data.detail || 'Registration failed';
+                    showMessage('register', 'error', errorMessage);
+                }
+            } catch (error) {
+                showMessage('register', 'error', 'Network error. Please try again.');
+            }
+        }
     </script>
 </body>
 </html>
