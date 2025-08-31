@@ -11,9 +11,13 @@ npm install
 
 # Set production environment variable for React build
 export REACT_APP_BACKEND_URL=https://todo-4-xnxh.onrender.com
+export PUBLIC_URL=/
 
 # Build React app
 npm run build
+
+# Fix PUBLIC_URL placeholders
+node build-script.js
 
 # Go back to root
 cd ..
