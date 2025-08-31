@@ -15,4 +15,6 @@ services:
       - key: DEBUG
         value: "False"
       - key: CORS_ALLOWED_ORIGINS
-        value: "https://travel-blog-frontend.onrender.com"
+        value: "https://todo-4-xnxh.onrender.com"
+      - key: SECRET_KEY
+        generateValue: true
