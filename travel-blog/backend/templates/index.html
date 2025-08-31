@@ -1,1 +1,40 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#8B5CF6"/><meta name="description" content="Share your amazing travel adventures and discover stories from around the world"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><title>TravelBlog - Share Your Adventures</title><script defer="defer" src="/static/js/main.f5166ca9.js"></script><link href="/static/css/main.e6c13ad2.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="theme-color" content="#8B5CF6"/>
+    <meta name="description" content="Share your amazing travel adventures and discover stories from around the world"/>
+    <link rel="apple-touch-icon" href="/logo192.png"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <title>TravelBlog - Share Your Adventures</title>
+    
+    <!-- Embedded CSS -->
+    <style>
+        body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;margin:0}code{font-family:source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace}
+    </style>
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    
+    <!-- Embedded JavaScript -->
+    <script>
+        // Simple React app fallback
+        document.getElementById('root').innerHTML = `
+            <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 style="font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🌍 TravelBlog</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; line-height: 1.6;">Share your amazing travel adventures and discover stories from around the world</p>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                    <button onclick="window.location.href='/api/auth/login/'" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">Login</button>
+                    <button onclick="window.location.href='/api/auth/register/'" style="background: white; border: 2px solid white; color: #667eea; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">Register</button>
+                </div>
+                <div style="margin-top: 40px; font-size: 0.9rem; opacity: 0.8;">
+                    <p>🚀 Your travel stories await!</p>
+                </div>
+            </div>
+        `;
+    </script>
+</body>
+</html>

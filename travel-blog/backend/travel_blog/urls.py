@@ -19,34 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.shortcuts import render
-from django.http import FileResponse
 from api.views import ReactAppView
 
 def serve_react_app(request):
     return render(request, 'index.html')
 
-def serve_static_file(request, file_path):
-    """Serve static files directly"""
-    import os
-    static_dir = os.path.join(settings.BASE_DIR, 'static')
-    file_location = os.path.join(static_dir, file_path)
-    
-    if os.path.exists(file_location):
-        return FileResponse(open(file_location, 'rb'))
-    else:
-        # Try alternative location
-        alt_location = os.path.join(static_dir, 'static', file_path)
-        if os.path.exists(alt_location):
-            return FileResponse(open(alt_location, 'rb'))
-        else:
-            from django.http import Http404
-            raise Http404("File not found")
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    # Serve static files directly
-    path('static/<path:file_path>', serve_static_file),
     # Serve React app for all other routes
     path('', serve_react_app),
 ]
