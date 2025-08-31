@@ -12,7 +12,6 @@ import {
   Box,
   Chip,
   Avatar,
-  IconButton,
   Fab,
   CircularProgress
 } from '@mui/material';
