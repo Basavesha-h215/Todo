@@ -28,6 +28,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { postsAPI } from '../services/api';
 
+// Get backend URL from environment or use current domain
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || window.location.origin;
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -301,11 +304,11 @@ const Home = () => {
                 }}
               >
                 {post.image && (
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={`http://localhost:8000${post.image}`}
-                    alt={post.title}
+                                     <CardMedia
+                     component="img"
+                     height="200"
+                     image={`${BACKEND_URL}${post.image}`}
+                     alt={post.title}
                     sx={{
                       objectFit: 'cover',
                       borderTopLeftRadius: 12,
