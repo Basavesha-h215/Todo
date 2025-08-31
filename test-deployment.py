@@ -52,8 +52,8 @@ def test_static_files():
         "/favicon.ico",
         "/manifest.json", 
         "/logo192.png",
-        "/static/js/main.f5166ca9.js",
-        "/static/css/main.e6c13ad2.css"
+        "/static/static/js/main.f5166ca9.js",
+        "/static/static/css/main.e6c13ad2.css"
     ]
     
     all_success = True
@@ -99,7 +99,8 @@ def test_user_registration():
     registration_data = {
         "username": username,
         "email": email,
-        "password": password
+        "password": password,
+        "password_confirm": password
     }
     
     try:

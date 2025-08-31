@@ -52,6 +52,12 @@ ls -la travel-blog/frontend/build/
 echo "Files in backend/static after copy:"
 ls -la travel-blog/backend/static/
 
+# Ensure static/static directory exists and copy files there too
+mkdir -p travel-blog/backend/static/static
+cp -r travel-blog/frontend/build/static/* travel-blog/backend/static/static/
+echo "Files in backend/static/static after copy:"
+ls -la travel-blog/backend/static/static/
+
 # Go to backend directory
 cd travel-blog/backend
 
