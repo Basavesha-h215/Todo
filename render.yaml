@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: travel-blog-backend
+    env: python
+    plan: free
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: cd backend && gunicorn travel_blog.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: DJANGO_SETTINGS_MODULE
+        value: travel_blog.settings
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DEBUG
+        value: "False"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://travel-blog-frontend.onrender.com"

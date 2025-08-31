@@ -1,13 +1,15 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// Get the backend URL from environment variable or use localhost for development
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 // Create axios instance
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: BACKEND_URL,
+  timeout: 10000,
 });
 
-// Add token to requests if it exists
+// Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token');
@@ -15,8 +17,11 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    // Set content type for JSON requests (but not for FormData)
-    if (!(config.data instanceof FormData)) {
+    // Set Content-Type dynamically based on data type
+    if (config.data instanceof FormData) {
+      // Don't set Content-Type for FormData - let browser set it with boundary
+      delete config.headers['Content-Type'];
+    } else {
       config.headers['Content-Type'] = 'application/json';
     }
     
@@ -27,60 +32,61 @@ api.interceptors.request.use(
   }
 );
 
-// Handle token refresh
+// Response interceptor to handle token refresh
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
-    
-    if (error.response.status === 401 && !originalRequest._retry) {
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      
-      const refreshToken = localStorage.getItem('refresh_token');
-      if (refreshToken) {
-        try {
-          const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
+
+      try {
+        const refreshToken = localStorage.getItem('refresh_token');
+        if (refreshToken) {
+          const response = await axios.post(`${BACKEND_URL}/api/token/refresh/`, {
             refresh: refreshToken,
           });
-          
-          localStorage.setItem('access_token', response.data.access);
-          api.defaults.headers.Authorization = `Bearer ${response.data.access}`;
-          
+
+          const { access } = response.data;
+          localStorage.setItem('access_token', access);
+
+          originalRequest.headers.Authorization = `Bearer ${access}`;
           return api(originalRequest);
-        } catch (refreshError) {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('user');
-          window.location.href = '/login';
         }
+      } catch (refreshError) {
+        // If refresh fails, redirect to login
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
 
-// Auth API
+// API endpoints
 export const authAPI = {
-  register: (userData) => api.post('/auth/register/', userData),
-  login: (credentials) => api.post('/auth/login/', credentials),
-  getProfile: () => api.get('/auth/profile/'),
-  updateProfile: (userData) => api.put('/auth/profile/', userData),
+  register: (data) => api.post('/api/register/', data),
+  login: (data) => api.post('/api/login/', data),
+  profile: () => api.get('/api/profile/'),
 };
 
-// Posts API
 export const postsAPI = {
-  getAllPosts: () => api.get('/posts/'),
-  getPost: (id) => api.get(`/posts/${id}/`),
-  createPost: (postData) => api.post('/posts/', postData),
-  updatePost: (id, postData) => api.put(`/posts/${id}/`, postData),
-  deletePost: (id) => api.delete(`/posts/${id}/`),
-  getPublicPosts: () => api.get('/public/posts/'),
+  getPosts: () => api.get('/api/posts/'),
+  getPublicPosts: () => api.get('/api/public/posts/'),
+  createPost: (data) => api.post('/api/posts/', data),
+  getPost: (id) => api.get(`/api/posts/${id}/`),
+  updatePost: (id, data) => api.put(`/api/posts/${id}/`, data),
+  deletePost: (id) => api.delete(`/api/posts/${id}/`),
 };
 
-// Comments API
 export const commentsAPI = {
-  createComment: (postId, commentData) => api.post(`/posts/${postId}/comments/`, commentData),
+  createComment: (postId, data) => api.post(`/api/posts/${postId}/comments/`, data),
 };
 
 export default api;
