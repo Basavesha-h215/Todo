@@ -55,8 +55,14 @@ mkdir -p staticfiles
 # Collect static files
 python manage.py collectstatic --noinput
 
-# Ensure static files are properly served
+# Copy static files to staticfiles directory for WhiteNoise
 cp -r static/* staticfiles/ 2>/dev/null || true
+
+# List files for debugging
+echo "Static files in staticfiles directory:"
+ls -la staticfiles/
+echo "Static files in static directory:"
+ls -la static/
 
 # Run migrations
 python manage.py migrate
