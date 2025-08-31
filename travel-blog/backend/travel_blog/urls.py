@@ -23,11 +23,6 @@ from api.views import ReactAppView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    # Serve static files
-    path('static/<path:path>', ReactAppView.as_view()),
-    path('manifest.json', ReactAppView.as_view()),
-    path('favicon.ico', ReactAppView.as_view()),
-    path('logo192.png', ReactAppView.as_view()),
     # Serve React app for all other routes
     path('', ReactAppView.as_view()),
 ]

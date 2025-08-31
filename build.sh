@@ -26,7 +26,7 @@ cd travel-blog/frontend
 npm install
 
 # Set production environment variable for React build
-export REACT_APP_BACKEND_URL=https://todo-4-xnxh.onrender.com
+export REACT_APP_BACKEND_URL=https://travel-blog-1nvr.onrender.com
 export PUBLIC_URL=/
 
 # Build React app
